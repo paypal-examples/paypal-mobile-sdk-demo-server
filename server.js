@@ -4,8 +4,8 @@ const { Client, Environment } = require('@paypal/paypal-server-sdk');
 const app = express();
 const sdkClient = new Client({
     clientCredentialsAuthCredentials: {
-        oAuthClientId: 'TODO: inject process.env.CLIENT_ID',
-        oAuthClientSecret: 'TODO: inject process.env.CLIENT_SECRET'
+        oAuthClientId: process.env.CLIENT_ID,
+        oAuthClientSecret: process.env.CLIENT_SECRET
     },
     environment: Environment.Sandbox,
 });
