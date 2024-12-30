@@ -1,5 +1,14 @@
 const express = require('express');
+const { Client, Environment } = require('@paypal/paypal-server-sdk');
+
 const app = express();
+const sdkClient = new Client({
+    clientCredentialsAuthCredentials: {
+        oAuthClientId: 'TODO: inject process.env.CLIENT_ID',
+        oAuthClientSecret: 'TODO: inject process.env.CLIENT_SECRET'
+    },
+    environment: Environment.Sandbox,
+});
 
 app.get('/ping', (req, res) => {
     res.type('text/plain');
