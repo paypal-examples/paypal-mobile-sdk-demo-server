@@ -9,7 +9,6 @@ const sdkClient = new Client({
     },
     environment: Environment.Sandbox,
 });
-
 const ordersController = new OrdersController(sdkClient);
 
 app.get('/ping', (req, res) => {
@@ -22,9 +21,9 @@ app.get('/orders/:orderID', async (req, res, next) => {
         const response = await ordersController.ordersGet({
             id: req.params.orderID
         })
-        res.json(response.body)
+        res.status(200).json(response.body)
     } catch  (err) {
-        next(err)
+        return res.status(400).json({ error: err.message });
     }
 });
 
@@ -34,9 +33,9 @@ app.post('/orders/:orderID/capture', async (req, res, next) => {
             id: req.params.orderID,
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
-        res.json(response.body)
+        res.status(200).json(response.body)
     } catch  (err) {
-        next(err)
+        return res.status(400).json({ error: err.message });
     }
 });
 
