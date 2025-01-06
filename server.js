@@ -30,9 +30,6 @@ app.get('/client_id', async (req, res) => {
 });
 
 app.get('/orders/:orderID', async (req, res, next) => {
-    console.log("Headers received:", req.headers);
-    console.log("Body received:", req.body);
-    
     try {
         const response = await ordersController.ordersGet({
             id: req.params.orderID
