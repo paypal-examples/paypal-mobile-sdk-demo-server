@@ -40,9 +40,9 @@ app.get('/orders/:orderID', async (req, res, next) => {
     }
 });
 
-app.post('/orders/:orderID/capture', async (req, res) => {
+app.post('/orders/:orderID/authorize', async (req, res) => {
     try {
-        const response = await ordersController.ordersCapture({
+        const response = await ordersController.authorize({
             id: req.params.orderID,
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
