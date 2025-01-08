@@ -54,32 +54,20 @@ app.post('/orders/:orderID/capture', async (req, res) => {
 
 app.post('/orders', async (req, res) => {
     try {
-	const { intent, purchaseUnits } = req.body;
+	
+	const payload = {
+	body: req.body,
+	paypalRequestId: Date.now().toString(),
+	paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id'),
+	};
 
-	if (!intent || !purchaseUnits || !Array.isArray(purchaseUnits) || purchaseUnits.length == 0) {
-	return res.status(400).send({ 
-	error: 'Invalid request body.',
-	 });
-	}
 
-	const orderRequest = { 
-	intent, 
-	purchaseUnits: purchaseUnits.map((unit) => ({
-	amount: {
-		currencyCode: unit.amount.currencyCode,
-		value: unit.amount.value,
-	},
-	description: unit.description,
- })),
-};
+	const response = await ordersController.ordersCreate(payload);
 
-	const response = await ordersController.ordersCreate({
-	body: orderRequest,
-	});
-
-	res.status(201).send(response.body);
+	res.set('Content-Type', 'application/json');
+	res.status(200).send(response.body);
 	} catch (err) {
-	return res.status(400).send({ error: err.message });	
+	res.status(400).send({ error: err.message });
 	}
 	});
 
