@@ -19,6 +19,38 @@ app.get('/ping', (req, res) => {
     res.send('pong')
 })
 
+app.get('/client_id', async (req, res) => {
+    const clientId = process.env.CLIENT_ID
+    if (!clientId) {
+        return res.status(400).send ({
+            error: 'Client ID is not found in environment'
+        });
+    }
+    return res.status(200).send({ value: clientId })
+});
+
+app.get('/orders/:orderID', async (req, res, next) => {
+    try {
+        const response = await ordersController.ordersGet({
+            id: req.params.orderID
+        })
+        res.status(200).send(response.body)
+    } catch  (err) {
+        return res.status(400).send({ error: err.message });
+    }
+});
+
+app.post('/orders/:orderID/capture', async (req, res) => {
+    try {
+        const response = await ordersController.ordersCapture({
+            id: req.params.orderID,
+            paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
+        })
+        res.status(200).send(response.body)
+    } catch  (err) {
+        return res.status(400).send({ error: err.message });
+    }
+});
 
 app.post('/orders', async (req, res) => {
     try {
@@ -50,7 +82,6 @@ app.post('/orders', async (req, res) => {
 	return res.status(400).send({ error: err.message });	
 	}
 	});
-
 
 
 const PORT = process.env.PORT || 3000;
