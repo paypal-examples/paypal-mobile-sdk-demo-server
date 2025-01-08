@@ -57,7 +57,6 @@ app.post('/orders', async (req, res) => {
 	
 	const payload = {
 	body: req.body,
-	paypalRequestId: Date.now().toString(),
 	paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id'),
 	};
 
