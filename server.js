@@ -22,7 +22,7 @@ app.get('/ping', (req, res) => {
 app.get('/client_id', async (req, res) => {
     const clientId = process.env.CLIENT_ID
     if (!clientId) {
-        return res.status(400).send ({
+        return res.status(400).send({
             error: 'Client ID is not found in environment'
         });
     }
@@ -35,7 +35,7 @@ app.get('/orders/:orderID', async (req, res, next) => {
             id: req.params.orderID
         })
         res.status(200).send(response.body)
-    } catch  (err) {
+    } catch (err) {
         return res.status(400).send({ error: err.message });
     }
 });
@@ -47,28 +47,25 @@ app.post('/orders/:orderID/capture', async (req, res) => {
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
         res.status(200).send(response.body)
-    } catch  (err) {
+    } catch (err) {
         return res.status(400).send({ error: err.message });
     }
 });
 
 app.post('/orders', async (req, res) => {
     try {
-	
-	const payload = {
-	body: req.body,
-	paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id'),
-	};
+        const payload = {
+            body: req.body,
+            paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
+        };
+        const response = await ordersController.ordersCreate(payload);
 
-
-	const response = await ordersController.ordersCreate(payload);
-
-	res.set('Content-Type', 'application/json');
-	res.status(200).send(response.body);
-	} catch (err) {
-	res.status(400).send({ error: err.message });
-	}
-	});
+        res.set('Content-Type', 'application/json');
+        res.status(200).send(response.body);
+    } catch (err) {
+        res.status(400).send({ error: err.message });
+    }
+});
 
 
 const PORT = process.env.PORT || 3000;
