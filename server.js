@@ -61,7 +61,7 @@ app.post('/orders', async (req, res) => {
         const response = await ordersController.ordersCreate(payload);
 
         res.set('Content-Type', 'application/json');
-        res.status(200).send(response.body);
+        res.status(201).send(response.body);
     } catch (err) {
         res.status(400).send({ error: err.message });
     }
