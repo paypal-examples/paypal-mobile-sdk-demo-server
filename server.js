@@ -52,6 +52,18 @@ app.post('/orders/:orderID/authorize', async (req, res) => {
     }
 });
 
+app.post('/orders/:orderID/capture', async (req, res) => {
+    try {
+        const response = await ordersController.ordersCapture({
+            id: req.params.orderID,
+            paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
+        })
+        res.status(200).send(response.body)
+    } catch  (err) {
+        return res.status(400).send({ error: err.message });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
