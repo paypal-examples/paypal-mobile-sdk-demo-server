@@ -12,9 +12,6 @@ const sdkClient = new Client({
     environment: Environment.Sandbox,
 });
 
-console.log("PayPal SDK Client initialzed");
-console.log(sdkClient);
-
 const ordersController = new OrdersController(sdkClient);
 
 app.get('/ping', (req, res) => {
@@ -39,8 +36,9 @@ app.get('/orders/:orderID', async (req, res, next) => {
         })
         res.status(200).send(response.body)
     } catch (err) {
-        console.log(err.toString());
-        return res.status(400).send({ error: err.message });
+        console.log('Get Order Error');
+        console.log(err.result.error_description);
+        return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
 
@@ -52,8 +50,9 @@ app.post('/orders/:orderID/authorize', async (req, res) => {
         })
         res.status(200).send(response.body)
     } catch  (err) {
-        console.log(err.toString());
-        return res.status(400).send({ error: err.message });
+        console.log('Authorize Order Error');
+        console.log( err.result.error_description );
+        return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
 
@@ -65,9 +64,9 @@ app.post('/orders/:orderID/capture', async (req, res) => {
         })
         res.status(200).send(response.body)
     } catch (err) {
-        console.log('capture order');
-        console.log(err.toString());
-        return res.status(400).send({ error: err.message });
+        console.log('Capture Order Error');
+        console.log(err.result.error_description);
+        return res.status(err.statusCode).send({ error: err.result.error_description});
     }
 });
 
@@ -82,9 +81,9 @@ app.post('/orders', async (req, res) => {
         res.set('Content-Type', 'application/json');
         res.status(201).send(response.body);
     } catch (err) {
-        console.log('create order');
-        console.log(err.toString());
-        res.status(400).send({ error: err.message });
+        console.log('Order Create Error');
+        console.log(err.result.error_description);
+        res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
 
