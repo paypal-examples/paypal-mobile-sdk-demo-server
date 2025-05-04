@@ -19,6 +19,13 @@ app.get('/ping', (req, res) => {
     res.send('pong')
 })
 
+app.use(express.static('public'));
+
+app.get('/.well-known/apple-app-site-association', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
+});
+
 app.get('/client_id', async (req, res) => {
     const clientId = process.env.CLIENT_ID
     if (!clientId) {
