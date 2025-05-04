@@ -1,0 +1,24 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs”: [“5YRAV27ZNE.com.paypal.ios.LinkDemo”],
+        "components": [
+          {
+            "/": "/success",
+            "comment": "Return URL after successful checkout"
+          },
+          {
+            "/": "/fail",
+            "comment": "Return URL after canceled or failed checkout"
+          },
+          {
+            "/": "/checkout/*",
+            "comment": "Wildcard for any SDK flow"
+          }
+        ]
+      }
+    ]
+  }
+}
