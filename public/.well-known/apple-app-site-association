@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appIDs”: [“5YRAV27ZNE.com.paypal.ios.LinkDemo”],
+        "appIDs”: ["5YRAV27ZNE.com.paypal.ios.LinkDemo"],
         "components": [
           {
             "/": "/success",
