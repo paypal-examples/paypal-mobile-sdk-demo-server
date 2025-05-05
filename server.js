@@ -2,6 +2,7 @@ const express = require('express');
 const { Client, Environment, OrdersController } = require('@paypal/paypal-server-sdk');
 
 const app = express();
+const path = require('path');
 app.use(express.json());
 
 const sdkClient = new Client({
@@ -19,12 +20,13 @@ app.get('/ping', (req, res) => {
     res.send('pong')
 })
 
-app.use(express.static('public'));
 
 app.get('/.well-known/apple-app-site-association', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
 });
+
+app.use(express.static('public'));
 
 app.get('/client_id', async (req, res) => {
     const clientId = process.env.CLIENT_ID
