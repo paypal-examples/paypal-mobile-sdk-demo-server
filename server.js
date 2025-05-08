@@ -20,6 +20,14 @@ app.get('/ping', (req, res) => {
     res.send('pong')
 })
 
+app.get('/success', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'success.html'), (err) => {
+        if (err) {
+            console.error('Error sending success.html:', err);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+});
 
 app.get('/.well-known/apple-app-site-association', (req, res) => {
   res.setHeader('Content-Type', 'application/json');

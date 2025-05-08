@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Successful</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #0070ba;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .amount {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 1rem 0;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎉 Thank You for Your Payment!</h2>
+    <p class="amount" id="amountDisplay"></p>
+    <button onclick="returnToApp()">Return to App</button>
+  </div>
+
+  <script>
+    // Extract 'amt' from query string
+    const params = new URLSearchParams(window.location.search);
+    const amount = params.get("amt");
+
+    // Display it
+    if (amount) {
+      document.getElementById("amountDisplay").textContent = `Amount Paid: $${amount}`;
+    } else {
+      document.getElementById("amountDisplay").textContent = `Amount Paid: (unknown)`;
+    }
+
+    function returnToApp() {
+      // You could also pass the amount back to the app if needed
+      window.location.href = `paypal-sdk-demo://success?amt=${amount || 0}`;
+    }
+  </script>
+</body>
+</html>
