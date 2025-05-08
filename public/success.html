@@ -41,7 +41,6 @@
   <div class="container">
     <h2>🎉 Thank You for Your Payment!</h2>
     <p class="amount" id="amountDisplay"></p>
-    <button onclick="returnToApp()">Return to App</button>
   </div>
 
   <script>
@@ -54,11 +53,6 @@
       document.getElementById("amountDisplay").textContent = `Amount Paid: $${amount}`;
     } else {
       document.getElementById("amountDisplay").textContent = `Amount Paid: (unknown)`;
-    }
-
-    function returnToApp() {
-      // You could also pass the amount back to the app if needed
-      window.location.href = `paypal-sdk-demo://success?amt=${amount || 0}`;
     }
   </script>
 </body>
