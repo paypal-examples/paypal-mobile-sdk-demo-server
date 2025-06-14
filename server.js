@@ -48,7 +48,7 @@ app.get('/client_id', async (req, res) => {
 
 app.get('/orders/:orderID', async (req, res, next) => {
     try {
-        const response = await ordersController.ordersGet({
+        const response = await ordersController.getOrder({
             id: req.params.orderID
         })
         res.status(200).send(response.body)
@@ -61,7 +61,7 @@ app.get('/orders/:orderID', async (req, res, next) => {
 
 app.post('/orders/:orderID/authorize', async (req, res) => {
     try {
-        const response = await ordersController.ordersAuthorize({
+        const response = await ordersController.authorizeOrder({
             id: req.params.orderID,
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
@@ -75,7 +75,7 @@ app.post('/orders/:orderID/authorize', async (req, res) => {
 
 app.post('/orders/:orderID/capture', async (req, res) => {
     try {
-        const response = await ordersController.ordersCapture({
+        const response = await ordersController.captureOrder({
             id: req.params.orderID,
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
@@ -93,7 +93,7 @@ app.post('/orders', async (req, res) => {
             body: req.body,
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         };
-        const response = await ordersController.ordersCreate(payload);
+        const response = await ordersController.createOrder(payload);
 
         res.set('Content-Type', 'application/json');
         res.status(201).send(response.body);
