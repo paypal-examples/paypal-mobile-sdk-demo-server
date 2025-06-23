@@ -95,7 +95,7 @@ app.post('/orders', async (req, res) => {
     }
 });
 
-payPalRouter.post('/payment_tokens', async (req, res) => {
+app.post('/payment_tokens', async (req, res) => {
     try {
         const payload = {
             body: req.body,
@@ -111,7 +111,7 @@ payPalRouter.post('/payment_tokens', async (req, res) => {
     }
 });
 
-payPalRouter.post('/setup_tokens', async (req, res) => {
+app.post('/setup_tokens', async (req, res) => {
     try {
         const payload = {
             body: req.body,
@@ -127,7 +127,7 @@ payPalRouter.post('/setup_tokens', async (req, res) => {
     }
 });
 
-payPalRouter.get('/setup-tokens/:setupTokenID', async (req, res) => {
+app.get('/setup-tokens/:setupTokenID', async (req, res) => {
     try {
         const { setupTokenID } = req.params;
         const response = await vaultController.getSetupToken(setupTokenID);
