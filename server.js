@@ -1,5 +1,5 @@
 const express = require('express');
-const { Client, Environment, OrdersController } = require('@paypal/paypal-server-sdk');
+const { Client, Environment, OrdersController, VaultController } = require('@paypal/paypal-server-sdk');
 
 const app = express();
 const path = require('path');
@@ -14,6 +14,7 @@ const sdkClient = new Client({
 });
 
 const ordersController = new OrdersController(sdkClient);
+const vaultController = new VaultController(sdkClient);
 
 app.get('/ping', (req, res) => {
     res.type('text/plain');
@@ -36,7 +37,7 @@ app.get('/.well-known/apple-app-site-association', (req, res) => {
 
 app.use(express.static('public'));
 
-app.get('/orders/:orderID', async (req, res, next) => {
+app.get('/orders/:orderID', async (req, res) => {
     try {
         const response = await ordersController.getOrder({
             id: req.params.orderID
@@ -89,6 +90,51 @@ app.post('/orders', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Order Create Error');
+        console.log(err.result.error_description);
+        res.status(err.statusCode).send({ error: err.result.error_description });
+    }
+});
+
+payPalRouter.post('/payment_tokens', async (req, res) => {
+    try {
+        const payload = {
+            body: req.body,
+            paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
+        };
+        const response = await vaultController.createPaymentToken(payload);
+        res.set('Content-Type', 'application/json');
+        res.status(201).send(response.body);
+    } catch (e) {
+        console.log('Payment Token Create Error');
+        console.log(err.result.error_description);
+        res.status(err.statusCode).send({ error: err.result.error_description });
+    }
+});
+
+payPalRouter.post('/setup_tokens', async (req, res) => {
+    try {
+        const payload = {
+            body: req.body,
+            paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
+        };
+        const response = await vaultController.createSetupToken(payload);
+        res.set('Content-Type', 'application/json');
+        res.status(201).send(response.body);
+    } catch (e) {
+        console.log('Setup Token Create Error');
+        console.log(err.result.error_description);
+        res.status(err.statusCode).send({ error: err.result.error_description });
+    }
+});
+
+payPalRouter.get('/setup-tokens/:setupTokenID', async (req, res) => {
+    try {
+        const { setupTokenID } = req.params;
+        const response = await vaultController.getSetupToken(setupTokenID);
+        res.set('Content-Type', 'application/json');
+        res.status(201).send(response.body);
+    } catch (e) {
+        console.log('Setup Token Get Error');
         console.log(err.result.error_description);
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
