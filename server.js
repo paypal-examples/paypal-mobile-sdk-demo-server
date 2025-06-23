@@ -30,21 +30,11 @@ app.get('/success', (req, res) => {
 });
 
 app.get('/.well-known/apple-app-site-association', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
+    res.setHeader('Content-Type', 'application/json');
+    res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
 });
 
 app.use(express.static('public'));
-
-app.get('/client_id', async (req, res) => {
-    const clientId = process.env.CLIENT_ID
-    if (!clientId) {
-        return res.status(400).send({
-            error: 'Client ID is not found in environment'
-        });
-    }
-    return res.status(200).send({ value: clientId })
-});
 
 app.get('/orders/:orderID', async (req, res, next) => {
     try {
@@ -66,9 +56,9 @@ app.post('/orders/:orderID/authorize', async (req, res) => {
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
         res.status(200).send(response.body)
-    } catch  (err) {
+    } catch (err) {
         console.log('Authorize Order Error');
-        console.log( err.result.error_description );
+        console.log(err.result.error_description);
         return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -83,7 +73,7 @@ app.post('/orders/:orderID/capture', async (req, res) => {
     } catch (err) {
         console.log('Capture Order Error');
         console.log(err.result.error_description);
-        return res.status(err.statusCode).send({ error: err.result.error_description});
+        return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
 
