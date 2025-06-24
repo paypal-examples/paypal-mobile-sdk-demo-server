@@ -5,6 +5,11 @@ const app = express();
 const path = require('path');
 app.use(express.json());
 
+function errorAsJSON(err) {
+    // pretty print
+    return JSON.stringify(err, null, 2);
+}
+
 const sdkClient = new Client({
     clientCredentialsAuthCredentials: {
         oAuthClientId: process.env.CLIENT_ID,
@@ -45,7 +50,7 @@ app.get('/orders/:orderID', async (req, res) => {
         res.status(200).send(response.body)
     } catch (err) {
         console.log('Get Order Error');
-        console.log(JSON.stringify(err));
+        console.log(errorAsJSON(err));
         return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -59,7 +64,7 @@ app.post('/orders/:orderID/authorize', async (req, res) => {
         res.status(200).send(response.body)
     } catch (err) {
         console.log('Authorize Order Error');
-        console.log(JSON.stringify(err));
+        console.log(errorAsJSON(err));
         return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -73,7 +78,7 @@ app.post('/orders/:orderID/capture', async (req, res) => {
         res.status(200).send(response.body)
     } catch (err) {
         console.log('Capture Order Error');
-        console.log(JSON.stringify(err));
+        console.log(errorAsJSON(err));
         return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -90,7 +95,7 @@ app.post('/orders', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Order Create Error');
-        console.log(JSON.stringify(err));
+        console.log(errorAsJSON(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -106,7 +111,7 @@ app.post('/payment-tokens', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Payment Token Create Error');
-        console.log(JSON.stringify(err));
+        console.log(errorAsJSON(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -122,7 +127,7 @@ app.post('/setup-tokens', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Setup Token Create Error');
-        console.log(JSON.stringify(err));
+        console.log(errorAsJSON(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -135,7 +140,7 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Setup Token Get Error');
-        console.log(JSON.stringify(err));
+        console.log(errorAsJSON(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
