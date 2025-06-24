@@ -104,7 +104,7 @@ app.post('/payment_tokens', async (req, res) => {
         const response = await vaultController.createPaymentToken(payload);
         res.set('Content-Type', 'application/json');
         res.status(201).send(response.body);
-    } catch (e) {
+    } catch (err) {
         console.log('Payment Token Create Error');
         console.log(err.result.error_description);
         res.status(err.statusCode).send({ error: err.result.error_description });
@@ -120,7 +120,7 @@ app.post('/setup_tokens', async (req, res) => {
         const response = await vaultController.createSetupToken(payload);
         res.set('Content-Type', 'application/json');
         res.status(201).send(response.body);
-    } catch (e) {
+    } catch (err) {
         console.log('Setup Token Create Error');
         console.log(err.result.error_description);
         res.status(err.statusCode).send({ error: err.result.error_description });
@@ -133,13 +133,12 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
         const response = await vaultController.getSetupToken(setupTokenID);
         res.set('Content-Type', 'application/json');
         res.status(201).send(response.body);
-    } catch (e) {
+    } catch (err) {
         console.log('Setup Token Get Error');
         console.log(err.result.error_description);
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
