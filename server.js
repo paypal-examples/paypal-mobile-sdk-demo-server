@@ -45,7 +45,7 @@ app.get('/orders/:orderID', async (req, res) => {
         res.status(200).send(response.body)
     } catch (err) {
         console.log('Get Order Error');
-        console.log(err.result.error_description);
+        console.log(JSON.stringify(err));
         return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -59,7 +59,7 @@ app.post('/orders/:orderID/authorize', async (req, res) => {
         res.status(200).send(response.body)
     } catch (err) {
         console.log('Authorize Order Error');
-        console.log(err.result.error_description);
+        console.log(JSON.stringify(err));
         return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -73,7 +73,7 @@ app.post('/orders/:orderID/capture', async (req, res) => {
         res.status(200).send(response.body)
     } catch (err) {
         console.log('Capture Order Error');
-        console.log(err.result.error_description);
+        console.log(JSON.stringify(err));
         return res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -90,12 +90,12 @@ app.post('/orders', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Order Create Error');
-        console.log(err.result.error_description);
+        console.log(JSON.stringify(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
 
-app.post('/payment_tokens', async (req, res) => {
+app.post('/payment-tokens', async (req, res) => {
     try {
         const payload = {
             body: req.body,
@@ -106,12 +106,12 @@ app.post('/payment_tokens', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Payment Token Create Error');
-        console.log(err.result.error_description);
+        console.log(JSON.stringify(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
 
-app.post('/setup_tokens', async (req, res) => {
+app.post('/setup-tokens', async (req, res) => {
     try {
         const payload = {
             body: req.body,
@@ -122,7 +122,7 @@ app.post('/setup_tokens', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Setup Token Create Error');
-        console.log(err.result.error_description);
+        console.log(JSON.stringify(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
@@ -135,7 +135,7 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
         res.status(201).send(response.body);
     } catch (err) {
         console.log('Setup Token Get Error');
-        console.log(err.result.error_description);
+        console.log(JSON.stringify(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
     }
 });
