@@ -47,7 +47,7 @@ app.get('/orders/:orderID', async (req, res) => {
         const response = await ordersController.getOrder({
             id: req.params.orderID
         })
-        res.status(200).send(response.body)
+        res.status(response.statusCode).send(response.body);
     } catch (err) {
         console.log('Get Order Error');
         console.log(errorAsJSON(err));
@@ -61,7 +61,7 @@ app.post('/orders/:orderID/authorize', async (req, res) => {
             id: req.params.orderID,
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
-        res.status(200).send(response.body)
+        res.status(response.statusCode).send(response.body);
     } catch (err) {
         console.log('Authorize Order Error');
         console.log(errorAsJSON(err));
@@ -75,7 +75,7 @@ app.post('/orders/:orderID/capture', async (req, res) => {
             id: req.params.orderID,
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         })
-        res.status(200).send(response.body)
+        res.status(response.statusCode).send(response.body);
     } catch (err) {
         console.log('Capture Order Error');
         console.log(errorAsJSON(err));
@@ -90,9 +90,7 @@ app.post('/orders', async (req, res) => {
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         };
         const response = await ordersController.createOrder(payload);
-
-        res.set('Content-Type', 'application/json');
-        res.status(201).send(response.body);
+        res.status(response.statusCode).send(response.body);
     } catch (err) {
         console.log('Order Create Error');
         console.log(errorAsJSON(err));
@@ -107,8 +105,7 @@ app.post('/payment-tokens', async (req, res) => {
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         };
         const response = await vaultController.createPaymentToken(payload);
-        res.set('Content-Type', 'application/json');
-        res.status(201).send(response.body);
+        res.status(response.statusCode).send(response.body);
     } catch (err) {
         console.log('Payment Token Create Error');
         console.log(errorAsJSON(err));
@@ -123,8 +120,7 @@ app.post('/setup-tokens', async (req, res) => {
             paypalClientMetadataId: req.header('PayPal-Client-Metadata-Id')
         };
         const response = await vaultController.createSetupToken(payload);
-        res.set('Content-Type', 'application/json');
-        res.status(201).send(response.body);
+        res.status(response.statusCode).send(response.body);
     } catch (err) {
         console.log('Setup Token Create Error');
         console.log(errorAsJSON(err));
@@ -136,8 +132,7 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
     try {
         const { setupTokenID } = req.params;
         const response = await vaultController.getSetupToken(setupTokenID);
-        res.set('Content-Type', 'application/json');
-        res.status(201).send(response.body);
+        res.status(response.statusCode).send(response.body);
     } catch (err) {
         console.log('Setup Token Get Error');
         console.log(errorAsJSON(err));
