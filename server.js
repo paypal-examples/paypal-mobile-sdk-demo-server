@@ -10,13 +10,13 @@ function errorAsJSON(err) {
     return JSON.stringify(err, null, 2);
 }
 
-const sdkClient = new Client({
-    clientCredentialsAuthCredentials: {
-        oAuthClientId: process.env.CLIENT_ID,
-        oAuthClientSecret: process.env.CLIENT_SECRET
-    },
-    environment: Environment.Sandbox,
-});
+const {
+    CLIENT_ID: oAuthClientId,
+    CLIENT_SECRET: oAuthClientSecret,
+    PAY_PAL_ENVIRONMENT: environment = Environment.Sandbox
+} = process.env;
+const clientCredentialsAuthCredentials = { oAuthClientId, oAuthClientSecret };
+const sdkClient = new Client({ environment, clientCredentialsAuthCredentials });
 
 const ordersController = new OrdersController(sdkClient);
 const vaultController = new VaultController(sdkClient);
@@ -140,7 +140,7 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+const { PORT: port = 3000 } = process.env;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
