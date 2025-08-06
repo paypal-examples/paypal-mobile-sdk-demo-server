@@ -1,5 +1,5 @@
 const express = require('express');
-const { Client, Environment, OrdersController, VaultController } = require('@paypal/paypal-server-sdk');
+const { Client, Environment, OrdersController, VaultController, OAuthAuthorizationController } = require('@paypal/paypal-server-sdk');
 
 const app = express();
 const path = require('path');
@@ -20,6 +20,7 @@ const sdkClient = new Client({ environment, clientCredentialsAuthCredentials });
 
 const ordersController = new OrdersController(sdkClient);
 const vaultController = new VaultController(sdkClient);
+const oAuthController = new OAuthAuthorizationController(sdkClient);
 
 app.get('/ping', (req, res) => {
     res.type('text/plain');
@@ -137,6 +138,20 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
         console.log('Setup Token Get Error');
         console.log(errorAsJSON(err));
         res.status(err.statusCode).send({ error: err.result.error_description });
+    }
+});
+
+app.post('/client-tokens', async (req, res) => {
+    try {
+        const response = await sdkClient.clientCredentialsAuthManager.fetchToken({
+            grant_type: "client_credentials",
+            response_type: "client_token"
+        });
+        res.status(200).send({ clientToken: response.accessToken });
+    } catch (err) {
+        console.log('Client Token Fetch Error: $err');
+        console.log(errorAsJSON(err));
+        res.status(err.statusCode).send({ error: err });
     }
 });
 
