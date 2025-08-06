@@ -140,6 +140,17 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
     }
 });
 
+app.post('/client-tokens', async (req, res) => {
+    try {
+        const response = await sdkClient.clientCredentialsAuthManager.fetchToken();
+        res.status(200).send({ clientToken: response });
+    } catch (err) {
+        console.log('Client Token Fetch Error');
+        console.log(errorAsJSON(err));
+        res.status(err.statusCode).send({ error: err });
+    }
+});
+
 const { PORT: port = 3000 } = process.env;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
