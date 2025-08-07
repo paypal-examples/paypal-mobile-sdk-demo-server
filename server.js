@@ -142,10 +142,13 @@ app.get('/setup-tokens/:setupTokenID', async (req, res) => {
 
 app.post('/client-tokens', async (req, res) => {
     try {
-        const response = await sdkClient.clientCredentialsAuthManager.fetchToken();
-        res.status(200).send({ clientToken: response });
+        const response = await sdkClient.clientCredentialsAuthManager.fetchToken({
+            grant_type: "client_credentials",
+            response_type: "client_token"
+        });
+        res.status(200).send({ clientToken: response.accessToken });
     } catch (err) {
-        console.log('Client Token Fetch Error');
+        console.log('Client Token Fetch Error: $err');
         console.log(errorAsJSON(err));
         res.status(err.statusCode).send({ error: err });
     }
