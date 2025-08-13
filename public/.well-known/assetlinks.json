@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.firstapp.paypaldemo",
+            "sha256_cert_fingerprints": [
+                "01:BD:4A:F2:5B:F3:43:C1:8A:2E:FC:D7:A9:AA:3C:A4:9F:9B:CC:E9:7F:4F:8B:7E:A5:03:2D:0F:FB:D6:24:A8"
+            ]
+        }
+    }
+]
