@@ -58,9 +58,11 @@
     <p class="amount" id="amountDisplay"></p>
   </div>
   <script>
-    // Extract 'amt' from query string
+
+    // extract amount and platform from query string
     const params = new URLSearchParams(window.location.search);
     const amount = params.get("amt");
+    const platform = params.get("platform") || 'Android';
 
     // Display it
     if (amount) {
@@ -70,7 +72,8 @@
     }
 
     const currentHref = window.location.href;
-    const deepLinkProtocol = 'com.paypal.android.demo:';
+    const isIOS = platform.toLowerCase() === 'ios';
+    const deepLinkProtocol = isIOS ? 'sdk.ios.paypal:' : 'com.paypal.android.demo:';
     const protocol = new URL(currentHref).protocol;
     const deepLinkRedirectHref = currentHref.replace(protocol, deepLinkProtocol);
 
