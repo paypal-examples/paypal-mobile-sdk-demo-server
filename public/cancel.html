@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Successful</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #0070ba;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .return-to-app-link {
+      display: inline-block;
+      background: #0070ba;
+      color: #fff;
+      text-decoration: none;
+      margin: 0 auto;
+      padding: 20px 48px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container" class="container">
+    <h2>🛑 Transaction Canceled</h2>
+  </div>
+  <script>
+
+    const params = new URLSearchParams(window.location.search);
+    const platform = params.get("platform") || 'Android';
+
+    const currentHref = window.location.href;
+    const isIOS = platform.toLowerCase() === 'ios';
+    const deepLinkProtocol = isIOS ? 'sdk.ios.paypal:' : 'com.paypal.android.demo:';
+    const protocol = new URL(currentHref).protocol;
+    const deepLinkRedirectHref = currentHref.replace(protocol, deepLinkProtocol);
+
+    const returnToAppLink = document.createElement('a');
+    const linkText = document.createTextNode("Return to App");
+    returnToAppLink.appendChild(linkText);
+    returnToAppLink.title = 'Return to App';
+    returnToAppLink.href = deepLinkRedirectHref;
+    returnToAppLink.classList.add('return-to-app-link');
+    document.getElementById('container').appendChild(returnToAppLink);
+
+  </script>
+
+</body>
+
+</html>
