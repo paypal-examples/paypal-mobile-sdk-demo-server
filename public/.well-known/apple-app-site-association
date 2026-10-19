@@ -5,7 +5,8 @@
       {
         "appIDs": [
           "5YRAV27ZNE.com.paypal.ios.LinkDemo",
-          "43253H4X22.com.paypal.ios.Demo"
+          "43253H4X22.com.paypal.ios.Demo",
+          "55377VK7X2.com.venmo.ios.paywithvenmo.MerchantTestbed"
         ],
         "components": [
           {
